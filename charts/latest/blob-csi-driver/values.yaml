@@ -154,8 +154,9 @@ node:
     setReadAheadSize: true
     allowPackageInstallDowngrade: true
     aptHttpTimeout: 300
-    # Maximum seconds for the entire init process, plus a 30s termination grace period.
-    installerTimeout: 600
+    # Optional maximum seconds for init, plus a 30s termination grace period.
+    # Empty disables the deadline; set e.g. 600 to enable it.
+    installerTimeout: ""
   blobfuseCachePath: /mnt
   appendTimeStampInCacheDir: false
   mountPermissions: 0777

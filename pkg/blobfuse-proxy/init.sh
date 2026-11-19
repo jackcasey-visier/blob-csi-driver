@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright 2019 The Kubernetes Authors.
 #
@@ -85,16 +85,19 @@ EOF
   fi
 }
 
-INSTALLER_TIMEOUT=${INSTALLER_TIMEOUT:-600}
-case "$INSTALLER_TIMEOUT" in
-  *[!0-9]*|0*)
-    echo "INSTALLER_TIMEOUT must be a positive number of seconds" >&2
-    exit 1
-    ;;
-esac
+if [ -z "${INSTALLER_TIMEOUT:-}" ]; then
+  main
+else
+  case "$INSTALLER_TIMEOUT" in
+    *[!0-9]*|0*)
+      echo "INSTALLER_TIMEOUT must be a positive number of seconds" >&2
+      exit 1
+      ;;
+  esac
 
-# Export the entrypoint so timeout can invoke it in a child Bash process.
-# Keep the deadline in the container, independent of host utilities.
-export -f main
-echo "Installer deadline: ${INSTALLER_TIMEOUT}s (30s termination grace period)"
-exec timeout --verbose --kill-after=30 "${INSTALLER_TIMEOUT}s" /bin/bash -xe -c main
+  # Export the entrypoint so timeout can invoke it in a child Bash process.
+  # Keep the deadline in the container, independent of host utilities.
+  export -f main
+  echo "Installer deadline: ${INSTALLER_TIMEOUT}s (30s termination grace period)"
+  exec timeout --verbose --kill-after=30 "${INSTALLER_TIMEOUT}s" /bin/bash -xe -c main
+fi
