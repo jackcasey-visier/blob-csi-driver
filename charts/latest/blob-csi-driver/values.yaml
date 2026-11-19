@@ -154,6 +154,8 @@ node:
     setReadAheadSize: true
     allowPackageInstallDowngrade: true
     aptHttpTimeout: 300
+    # Maximum seconds for the entire init process, plus a 30s termination grace period.
+    installerTimeout: 600
   blobfuseCachePath: /mnt
   appendTimeStampInCacheDir: false
   mountPermissions: 0777

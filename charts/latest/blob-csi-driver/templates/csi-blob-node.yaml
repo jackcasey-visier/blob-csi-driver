@@ -136,6 +136,8 @@ spec:
               value: "{{ .Values.node.blobfuseProxy.allowPackageInstallDowngrade }}"
             - name: APT_HTTP_TIMEOUT
               value: "{{ .Values.node.blobfuseProxy.aptHttpTimeout }}"
+            - name: INSTALLER_TIMEOUT
+              value: "{{ .Values.node.blobfuseProxy.installerTimeout }}"
           volumeMounts:
 {{- if eq .Values.linux.distro "cos" }}
             - name: host-home-kubernetes-bin
